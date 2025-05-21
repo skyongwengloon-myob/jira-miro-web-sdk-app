@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Miro Jira Burn-up Chart</title>
+    <script src="https://miro.com/app/static/sdk/v2/miro.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #4262ff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #324acc;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Generate Jira Burn-up Chart</h2>
+    <button id="burnup-btn">Burn-Up Chart</button>
+
+    <script type="module" src="/src/index.js"></script>
+  </body>
+</html>
