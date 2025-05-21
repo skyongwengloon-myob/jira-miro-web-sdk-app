@@ -1,3 +1,8 @@
+// This listens for the app icon click in Miro
+miro.board.ui.on("icon:click", async () => {
+  await miro.board.ui.openPanel({ url: "index.html" });
+});
+
 const button = document.getElementById('burnup-btn');
 
 button.onclick = async () => {
@@ -12,7 +17,9 @@ button.onclick = async () => {
   try {
     const response = await fetch('http://localhost:3001/api/burnup', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json'
+       }
     });
 
     const result = await response.json();

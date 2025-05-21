@@ -8,11 +8,21 @@ This project integrates Jira sprint data with Miro, allowing you to generate bur
 
 ## 🚀 Getting Started
 
-To run the application, start both the **backend** and **frontend** services in separate terminals.
+To run the application locally, start **CloudFlared**, **backend** and **frontend** services in 3 separate terminals.
 
 ---
 
-### 1️⃣ Start the Backend (Node.js + Express)
+### 1 Start the CloudFlared for https forwarding
+
+Runs on https://xxxxxxxx.trycloudflare.com
+
+```bash
+cloudflared tunnel --url http://localhost:3000
+```
+- Update vite.config.js with the xxxxxxxx.trycloudflare.com
+- Update [Miro Developer](https://miro.com/app/settings/company/3458764558483484367/user-profile/apps/) App url and calllback url
+
+### 2 Start the Backend (Node.js + Express)
 
 Runs on [http://localhost:3001](http://localhost:3001)
 
@@ -20,13 +30,17 @@ Runs on [http://localhost:3001](http://localhost:3001)
 npm run server
 ```
 
-### 2️⃣ Start the Backend (Node.js + Express)
+### 3 Start the Backend (Node.js + Express)
 
 Runs on [http://localhost:3001](http://localhost:3001)
 
 ```bash
 npm run dev
 ```
+
+### 4 Browse to Miro 
+Click on the miro app
+
 
 ### 📁 Project Structure
 
