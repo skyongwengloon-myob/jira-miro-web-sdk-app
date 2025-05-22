@@ -1,5 +1,5 @@
-import { getSprints, getSprintStats } from '../../src/jiraApi.js';
-import { createMiroTable, uploadChartToMiro } from '../../src/miroApi.js';
+import { getActiveSprintIssues, getSprints, getSprintStats } from '../../src/jiraApi.js';
+import { createMiroTable, uploadChartToMiro, createStickyNote } from '../../src/miroApi.js';
 import { buildBurnupChartConfig } from '../../src/chartBuilder.js';
 
 export async function generateBurnupChart() {
@@ -19,7 +19,21 @@ export async function generateBurnupChart() {
     const chartConfig = buildBurnupChartConfig(table);
     await uploadChartToMiro(chartConfig);
 
-    console.log('service. All tasks completed successfully.');
+    console.log('All tasks completed successfully.');
+  } catch (err) {
+    console.error('Error:', err.response?.data || err.message);
+  }
+}
+
+export async function generateStickyNote() {
+  try {
+      const { issues } = await getActiveSprintIssues();
+      for (const issue of issues) {
+        const summary = `${issue.key}: ${issue.fields.summary}`;
+        await createStickyNote(summary);
+      }
+
+    console.log('All tasks completed successfully.');
   } catch (err) {
     console.error('Error:', err.response?.data || err.message);
   }

@@ -65,3 +65,25 @@ export async function uploadChartToMiro(chartConfig) {
   //console.log('uploadChartToMiro completed.');
   console.log('Chart uploaded to Miro:', res.data.id);
 }
+
+export async function createStickyNote(summary) {
+  const randomX = Math.floor(Math.random() * 1000) - 500; // random between -500 and +499
+  const randomY = 1000+(Math.floor(Math.random() * 1000) - 500); // random between -500 and +499
+
+  const res = await axios.post(`https://api.miro.com/v2/boards/${MIRO_BOARD_ID}/sticky_notes`, {
+    data: { content: summary },
+    position: {
+      origin: 'center',
+      x: randomX,
+      y: randomY
+    }
+  }, {
+    headers: {
+      Authorization: `Bearer ${MIRO_TOKEN}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  // optional: return response or note ID
+  return res.data;
+}

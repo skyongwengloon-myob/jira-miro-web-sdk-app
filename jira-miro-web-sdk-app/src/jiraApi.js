@@ -44,3 +44,31 @@ export async function getSprintStats(sprintId) {
     console.log(`getSprintStats completed for sprintId: ${sprintId}`);
   return { total, done };
 }
+
+
+export async function getActiveSprintIssues() {
+    //console.log('getActiveSprint started.');
+  const res = await axios.get(`${JIRA_BASE_URL}/rest/agile/1.0/board/${JIRA_BOARD_ID}/sprint?state=active`, {
+    headers: { Authorization: JIRA_AUTH }
+  });
+   const sprints = res.data.values;
+    if (!sprints.length) return res.status(404).send('No active sprints found.');
+
+    const activeSprint = sprints.sort((a, b) =>
+      new Date(b.endDate || b.startDate) - new Date(a.endDate || a.startDate)
+    )[0];
+
+    console.log('Latest active sprint:', activeSprint.name);
+
+    const issuesRes = await axios.get(
+      `${JIRA_BASE_URL}/rest/agile/1.0/sprint/${activeSprint.id}/issue`,
+      {
+        headers: {
+          Authorization: JIRA_AUTH,
+          Accept: 'application/json',
+        },
+      }
+    );
+    const issues = issuesRes.data.issues;
+    return { issues };
+}

@@ -37,3 +37,38 @@ button.onclick = async () => {
     button.textContent = originalText;
   }
 };
+
+const stickyNoteButton = document.getElementById('sticky-note-btn');
+
+stickyNoteButton.onclick = async () => {
+  if (stickyNoteButton.disabled) return; // prevent double click
+
+  console.log('Sticky note button clicked');
+
+  stickyNoteButton.disabled = true;
+  const originalText = stickyNoteButton.textContent;
+  stickyNoteButton.textContent = 'Working...';
+
+  try {
+    const response = await fetch('http://localhost:3001/api/burnup/sticky-note', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+       }
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert(result.message);
+    } else {
+      alert('Error: ' + (result.error || 'Unknown error'));
+    }
+  } catch (err) {
+    console.error('Fetch failed:', err);
+    alert('Failed to call backend API: ' + (err.message || 'Unknown error'));
+  } finally {
+    stickyNoteButton.disabled = false;
+    stickyNoteButton.textContent = originalText;
+  }
+}
